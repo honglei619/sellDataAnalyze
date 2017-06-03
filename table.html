@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>数据</title>
+    <link rel="stylesheet" href="semantic.min.css">
+    <script src="echarts.min.js"></script>
+    <script src="jquery.js"></script>
+    <script src="semantic.min.js"></script>
+</head>
+<body>
+
+  <div class="ui attached stackable menu">
+    <div class="ui container">
+      <a class="item" href="index.html">
+        <i class="yellow home icon"></i> 主页
+      </a>
+      <a class="item" href="table.html">
+        <i class="yellow browser icon"></i> 数据
+      </a>
+      <a class="item" href="echart.html">
+        <i class="yellow bar chart icon"></i> 图表
+      </a>
+      <a class="item" href="config.html">
+        <i class="yellow configure icon"></i> 设置
+      </a>
+      <div class="right item">
+        <div class="ui input"><input type="text" placeholder="Search..."></div>
+      </div>
+    </div>
+    </div>
+<!--
+<script type="text/javascript">
+
+var arr1=[],arr2=[],arr3=[],arr4=[],arr5=[],arr6=[],arr7=[],arr8=[],arr9=[],arr10=[];
+
+              function currentMonth(){
+
+                //alert('wilmar');
+
+                $.ajax({
+                  type:'post',
+                  async:false,
+                  url:'getdata.php',
+                  data:{},
+                  //data:{'mi':$('#mi').val()},
+                  dataType:"json",
+                  success:function(result){
+                    alert(result.length);
+                    if (result) {
+                      for (var i = 0; i < result.length; i++) {
+                         arr1.push(result[i].客户);
+                         arr2.push(result[i].销量);
+                         arr3.push(result[i].销售收入);
+                         arr4.push(result[i].吨均售价);
+                         arr5.push(result[i].销售成本);
+                         arr6.push(result[i].吨均成本);
+                         arr7.push(result[i].销售运费);
+                         arr8.push(result[i].吨均运费);
+                         arr9.push(result[i].销售毛利);
+                         arr10.push(result[i].吨均毛利);
+                      }
+
+                    }
+                  }
+                })
+                return arr1,arr2,arr3,arr4,arr5,arr6,arr7,arr8,arr9,arr10;
+              }
+
+              currentMonth();       
+</script>
+-->  
+<div id="tableCurrent" >
+<script>
+$.getJSON('getdata.php',{'mi':'籼米'}, function(json){
+  var htmls=['<table border="1">']; 
+  htmls.push('<tr>')
+  for(var k in json[0]) htmls.push('<td>'+k+'</td>');
+  htmls.push('</tr>');
+  for(var i=0,L=json.length;i<L;i++){
+    htmls.push('<tr>');
+    for(var k in json[i]) htmls.push('<td>'+json[i][k]+'</td>'); 
+    htmls.push('</tr>');
+  }
+  htmls.push('</table>');
+  $('#tableCurrent').html(htmls.join(''))});
+
+</script>
+</div>
+
+<div id = "table2">
+  <script>
+  $.getJSON('echart.php',{'mi':'籼米'}, function(json){
+  var htmls=['<table border="1">']; 
+  htmls.push('<tr>')
+  for(var k in json[0]) htmls.push('<td>'+k+'</td>');
+  htmls.push('</tr>');
+  for(var i=0,L=json.length;i<L;i++){
+    htmls.push('<tr>');
+    for(var k in json[i]) htmls.push('<td>'+json[i][k]+'</td>'); 
+    htmls.push('</tr>');
+  }
+  htmls.push('</table>');
+  $('#table2').html(htmls.join(''))});
+</script>
+</div>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>图表</title>
+    <link rel="stylesheet" href="semantic.min.css">
+    <script src="echarts.min.js"></script>
+    <script src="jquery.js"></script>
+    <script src="semantic.min.js"></script>
+
+</head>
+<body>
+
+  <div class="ui attached stackable menu">
+    <div class="ui container">
+      <a class="item" href="index.html">
+        <i class="yellow home icon"></i> 主页
+      </a>
+      <a class="item" href="table.html">
+        <i class="yellow browser icon"></i> 数据
+      </a>
+      <a class="item" href="echart.html">
+        <i class="yellow bar chart icon"></i> 图表
+      </a>
+      <a class="item" href="config.html">
+        <i class="yellow configure icon"></i> 设置
+      </a>
+      <div class="right item">
+        <div class="ui input"><input type="text" placeholder="Search..."></div>
+      </div>
+    </div>
+    </div>
+    <select id ="mi">
+              <option value = "糯米"  maxlength = "20" size = "10" >糯米</option>
+              <option value = "粳米"  maxlength = "20" size = "10" selected="selected">粳米</option>
+              <option value = "籼米"  maxlength = "20" size = "10">籼米</option>
+    </select>
+<div id="main" style="height:300px"></div>
+
+
+<script type="text/javascript">
+            var  myChart = echarts.init(document.getElementById('main'));
+var arr1=[],arr2=[],arr3=[];
+
+$(document).on("change",'select#mi',function(){
+              function arrTest(){
+                $.ajax({
+                  type:'get',
+                  async:false,
+                  url:'echart.php',
+                  data:{'mi':$('#mi').val()},
+                  dataType:"json",
+                  success:function(result){
+                    if (result) {
+                      for (var i = 0; i < result.length; i++) {
+                         arr1.push(result[i].期间);
+                         arr2.push(result[i].销量);
+                         arr3.push(result[i].吨均售价);
+                         //alert('wilmar');
+                      }
+                    }
+                  }
+                })
+                return arr1,arr2,arr3;
+              }
+
+              arrTest();
+              var  option = {
+                    title:{
+                        text:'2016年'+$('#mi').val()+'销量及吨均售价'
+                    },
+                    tooltip: {
+                        show: true
+                    },
+                    legend: {
+                       data:['销量','吨均售价']
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : arr1
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value',
+                             name:'销量'
+                        },
+                        {
+                            type:'value',
+                            name:'吨均售价'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'销量',
+                            type:'bar',
+                            barWidth: 30,
+                            data:arr2,
+                            label:{normal:{show: true,position:'top'}}
+                        },
+                        {
+                            name:"吨均售价",
+                            type:'line',
+                            data:arr3,
+                            label:{normal:{show: true,position:'top'}}
+                        }
+
+                    ]
+                };
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+                arr1=[];
+                arr2=[];
+                arr3=[];
+});
+
+    </script>
+</body>
