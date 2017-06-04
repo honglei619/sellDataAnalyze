@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>数据</title>
-    <link rel="stylesheet" href="semantic.min.css">
-    <script src="echarts.min.js"></script>
-    <script src="jquery.js"></script>
-    <script src="semantic.min.js"></script>
+    <title>图表</title>
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 
@@ -21,60 +22,60 @@
         <i class="yellow bar chart icon"></i> 图表
       </a>
       <a class="item" href="config.html">
-        <i class="yellow configure icon"></i> 设置
+        <i class="yellow setting icon"></i> 设置
       </a>
-      <div class="right item">
-        <div class="ui input"><input type="text" placeholder="Search..."></div>
-      </div>
     </div>
-    </div>
+  </div>
+
+<div class="ui segment">
+  <h2 class="ui left floated header"></h2>
+  
+  <font size = "3">报表开始时间段</font>
+  <input type="text" id = "dateFrom" class="Wdate" value="2017-5" onfocus="WdatePicker({dateFmt:'yyyy-M',minDate:'2016-1',maxDate:'2017-12'})"/>
+    
+  <font size = "3">报表结束时间段</font>
+  <input type="text" id = "dateTo" class="Wdate" value="2017-5" onfocus="WdatePicker({dateFmt:'yyyy-M',minDate:'2016-1',maxDate:'2017-12'})"/>
+
+  <font size = "3">类型</font>
+          <select id ="types">
+                    <option value = "糯米"  maxlength = "20" size = "10">糯米</option>
+                    <option value = "粳米"  maxlength = "20" size = "10">粳米</option>
+                    <option value = "籼米"  maxlength = "20" size = "10">籼米</option>
+          </select>
+    <font size = "3">筛选类型</font>
+          <select id ="filter">
+
+                    <option value = "事业部"  maxlength = "20" size = "10">事业部</option>
+                    <option value = "品牌"  maxlength = "20" size = "10">品牌</option>
+                    <option value = "规格"  maxlength = "20" size = "10">规格</option>
+                    <option value = "自产·贸易"  maxlength = "20" size = "10">自产·贸易</option>
+                    <option value = "客户类型"  maxlength = "20" size = "10">客户类型</option>
+                    <option value = "客户销量排名"  maxlength = "20" size = "10">客户销量排名</option>
+                    <option value = "客户利润排名"  maxlength = "20" size = "10">客户利润排名</option>
+                    <option value = ""  maxlength = "20" size = "10">空</option>
+          </select>
+      <input id = "button" type = "submit" value = '生成报表' >
+</div>
+
 <!--
-<script type="text/javascript">
-
-var arr1=[],arr2=[],arr3=[],arr4=[],arr5=[],arr6=[],arr7=[],arr8=[],arr9=[],arr10=[];
-
-              function currentMonth(){
-
-                //alert('wilmar');
-
-                $.ajax({
-                  type:'post',
-                  async:false,
-                  url:'getdata.php',
-                  data:{},
-                  //data:{'mi':$('#mi').val()},
-                  dataType:"json",
-                  success:function(result){
-                    alert(result.length);
-                    if (result) {
-                      for (var i = 0; i < result.length; i++) {
-                         arr1.push(result[i].客户);
-                         arr2.push(result[i].销量);
-                         arr3.push(result[i].销售收入);
-                         arr4.push(result[i].吨均售价);
-                         arr5.push(result[i].销售成本);
-                         arr6.push(result[i].吨均成本);
-                         arr7.push(result[i].销售运费);
-                         arr8.push(result[i].吨均运费);
-                         arr9.push(result[i].销售毛利);
-                         arr10.push(result[i].吨均毛利);
-                      }
-
-                    }
-                  }
-                })
-                return arr1,arr2,arr3,arr4,arr5,arr6,arr7,arr8,arr9,arr10;
-              }
-
-              currentMonth();       
-</script>
--->  
+  当月报表
+-->
+<div class="ui segment">
+    <h2 class="ui left floated header">当月报表</h2>
 <div id="tableCurrent" >
 <script>
-$.getJSON('getdata.php',{'mi':'籼米'}, function(json){
-  var htmls=['<table border="1">']; 
+$("#button").click(function(){
+$.getJSON('getdata.php',{
+  'yearFrom':$('#dateFrom').val().substr(0,4),
+  'monthFrom':$('#dateFrom').val().substr(5,2),
+  'yearTo':$('#dateTo').val().substr(0,4),
+  'monthTo':$('#dateTo').val().substr(5,2),
+  'types':$('#types').val(),
+  'filter':$('#filter').val()}, function(json){
+  
+  var htmls=['<table  class="ui selectable celled table">']; 
   htmls.push('<tr>')
-  for(var k in json[0]) htmls.push('<td>'+k+'</td>');
+  for(var k in json[0]) htmls.push('<td class="positive">'+k+'</td>');
   htmls.push('</tr>');
   for(var i=0,L=json.length;i<L;i++){
     htmls.push('<tr>');
@@ -84,15 +85,31 @@ $.getJSON('getdata.php',{'mi':'籼米'}, function(json){
   htmls.push('</table>');
   $('#tableCurrent').html(htmls.join(''))});
 
+});
+ 
 </script>
 </div>
+</div>
 
-<div id = "table2">
-  <script>
-  $.getJSON('echart.php',{'mi':'籼米'}, function(json){
-  var htmls=['<table border="1">']; 
+<!--
+  上月报表
+-->
+<div class="ui segment">
+    <h2 class="ui left floated header">上月报表</h2>
+<div id = "tableLastMonth">
+<script>
+
+$("#button").click(function(){
+$.getJSON('getdata.php',{
+  'yearFrom':$('#dateFrom').val().substr(0,4),
+  'monthFrom':$('#dateFrom').val().substr(5,2)-1,
+  'yearTo':$('#dateTo').val().substr(0,4),
+  'monthTo':$('#dateTo').val().substr(5,2)-1,
+  'types':$('#types').val(),
+  'filter':$('#filter').val()}, function(json){
+  var htmls=['<table  class="ui selectable celled table">']; 
   htmls.push('<tr>')
-  for(var k in json[0]) htmls.push('<td>'+k+'</td>');
+  for(var k in json[0]) htmls.push('<td class="positive">'+k+'</td>');
   htmls.push('</tr>');
   for(var i=0,L=json.length;i<L;i++){
     htmls.push('<tr>');
@@ -100,6 +117,61 @@ $.getJSON('getdata.php',{'mi':'籼米'}, function(json){
     htmls.push('</tr>');
   }
   htmls.push('</table>');
-  $('#table2').html(htmls.join(''))});
+  $('#tableLastMonth').html(htmls.join(''))});});
 </script>
+</div>
+</div>
+
+<!--
+  差异报表
+-->
+<div class="ui segment">
+    <h2 class="ui left floated header">差异报表</h2>
+<div id = "tableDifference">
+
+<script>
+$("#button").click(function(){
+$.getJSON('getdata.php',{
+  'yearFrom':$('#dateFrom').val().substr(0,4),
+  'monthFrom':$('#dateFrom').val().substr(5,2),
+  'yearTo':$('#dateTo').val().substr(0,4),
+  'monthTo':$('#dateTo').val().substr(5,2),
+  'types':$('#types').val(),
+  'filter':$('#filter').val()}, function(jsona){
+    $.getJSON('getdata.php',{
+  'yearFrom':$('#dateFrom').val().substr(0,4),
+  'monthFrom':$('#dateFrom').val().substr(5,2)-1,
+  'yearTo':$('#dateTo').val().substr(0,4),
+  'monthTo':$('#dateTo').val().substr(5,2)-1,
+  'types':$('#types').val(),
+  'filter':$('#filter').val()}, function(jsonb){
+        var htmls=['<table  class="ui selectable celled table">']; 
+    htmls.push('<tr>')
+    for(var k in jsonb[0]) htmls.push('<td class="positive">'+k+'</td>');
+    htmls.push('</tr>');
+    for(var i=0,L=jsonb.length;i<L;i++){
+      htmls.push('<tr>');
+
+          for(var k in jsonb[i]) 
+           if(k=='品牌'||k=='事业部'||k=='规格'||k=='客户类型'){
+              htmls.push('<td>'+jsonb[i][k]+'</td>');
+
+           } else if((jsonb[i][k]-jsona[i][k])/jsona[i][k]<-0.05||(jsonb[i][k]-jsona[i][k])/jsona[i][k]>0.05){
+                    htmls.push('<td class="negative">'+(jsonb[i][k]-jsona[i][k]).toFixed(2)+'</td>');
+           }  else{
+                  htmls.push('<td>'+(jsonb[i][k]-jsona[i][k]).toFixed(2)+'</td>');
+
+           }
+
+      htmls.push('</tr>');
+    }
+    htmls.push('</table>');
+    $('#tableDifference').html(htmls.join(''))
+
+  });
+
+});
+});
+</script>
+</div>
 </div>

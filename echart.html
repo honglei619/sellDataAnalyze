@@ -2,11 +2,11 @@
 <head>
     <meta charset="utf-8">
     <title>图表</title>
-    <link rel="stylesheet" href="semantic.min.css">
-    <script src="echarts.min.js"></script>
-    <script src="jquery.js"></script>
-    <script src="semantic.min.js"></script>
-
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 
@@ -22,18 +22,43 @@
         <i class="yellow bar chart icon"></i> 图表
       </a>
       <a class="item" href="config.html">
-        <i class="yellow configure icon"></i> 设置
+        <i class="yellow setting icon"></i> 设置
       </a>
-      <div class="right item">
-        <div class="ui input"><input type="text" placeholder="Search..."></div>
-      </div>
     </div>
-    </div>
-    <select id ="mi">
-              <option value = "糯米"  maxlength = "20" size = "10" >糯米</option>
-              <option value = "粳米"  maxlength = "20" size = "10" selected="selected">粳米</option>
-              <option value = "籼米"  maxlength = "20" size = "10">籼米</option>
-    </select>
+  </div>
+
+<div class="ui segment">
+  <h2 class="ui left floated header"></h2>
+  
+  <font size = "3">报表开始时间段</font>
+  <input type="text" id = "dateFrom" class="Wdate" value="2017-5" onfocus="WdatePicker({dateFmt:'yyyy-M',minDate:'2016-1',maxDate:'2017-12'})"/>
+    
+  <font size = "3">报表结束时间段</font>
+  <input type="text" id = "dateTo" class="Wdate" value="2017-5" onfocus="WdatePicker({dateFmt:'yyyy-M',minDate:'2016-1',maxDate:'2017-12'})"/>
+
+  <font size = "3">类型</font>
+          <select id ="mi">
+                    <option value = "糯米"  maxlength = "20" size = "10">糯米</option>
+                    <option value = "粳米"  maxlength = "20" size = "10">粳米</option>
+                    <option value = "籼米"  maxlength = "20" size = "10">籼米</option>
+          </select>
+    <font size = "3">筛选类型</font>
+          <select id ="filter">
+                <!--
+                    <option value = "事业部"  maxlength = "20" size = "10">事业部</option>
+                    <option value = "品牌"  maxlength = "20" size = "10">品牌</option>
+                    <option value = "规格"  maxlength = "20" size = "10">规格</option>
+                    <option value = "自产·贸易"  maxlength = "20" size = "10">自产·贸易</option>
+                    <option value = "客户类型"  maxlength = "20" size = "10">客户类型</option>
+                    <option value = ""  maxlength = "20" size = "10">空</option>
+                  -->
+                    <option value = "客户销量排名"  maxlength = "20" size = "10">客户销量排名</option>
+                    <option value = "客户利润排名"  maxlength = "20" size = "10">客户利润排名</option>
+
+          </select>
+      <input type = "submit" value = '生成图表'>
+</div>
+
 <div id="main" style="height:300px"></div>
 
 
@@ -55,7 +80,6 @@ $(document).on("change",'select#mi',function(){
                          arr1.push(result[i].期间);
                          arr2.push(result[i].销量);
                          arr3.push(result[i].吨均售价);
-                         //alert('wilmar');
                       }
                     }
                   }
@@ -66,7 +90,7 @@ $(document).on("change",'select#mi',function(){
               arrTest();
               var  option = {
                     title:{
-                        text:'2016年'+$('#mi').val()+'销量及吨均售价'
+                        text:'2016年'+$('#mi').val()+'客户销量及吨均售价'
                     },
                     tooltip: {
                         show: true

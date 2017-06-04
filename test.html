@@ -1,21 +1,60 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="semantic.min.css">
-    <script src="jquery.js"></script>
-    <script src="semantic.min.js"></script>
+    <title>图表</title>
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </head>
 
+<div id = "table3">
+  <script>
+$.getJSON('test.php',{'month':'1'},function(jsona){
 
+  $.getJSON('test.php',{'month':'2'},function(jsonb){
 
-<h2 class="ui dividing header">测试</h2>
-<button class="ui negative button">Login</button>
-<div class="ui divider"></div>
-<i class="cloud icon"></i>
-<i class="pause icon"></i>
-<button class="ui  button">
-<i class="find icon"></i>
-</button>
-<div class="hidden content">
+    var htmls=['<table  class="ui selectable celled table">']; 
+    htmls.push('<tr>')
+    for(var k in jsonb[0]) htmls.push('<td>'+k+'</td>');
+    htmls.push('</tr>');
+    for(var i=0,L=jsonb.length;i<L;i++){
+      htmls.push('<tr>');
 
+          for(var k in jsonb[i]) 
+           if(k=='品牌'||k=='事业部'||k=='规格'||k=='客户类型'){
+              htmls.push('<td>'+jsonb[i][k]+'</td>');
+
+           } else if((jsonb[i][k]-jsona[i][k])/jsona[i][k]<-0.05||(jsonb[i][k]-jsona[i][k])/jsona[i][k]>0.05){
+                    htmls.push('<td class="negative">'+(jsonb[i][k]-jsona[i][k]).toFixed(2)+'</td>');
+           }  else{
+                  htmls.push('<td>'+(jsonb[i][k]-jsona[i][k]).toFixed(2)+'</td>');
+
+           }
+
+      htmls.push('</tr>');
+    }
+    htmls.push('</table>');
+    $('#table3').html(htmls.join(''))
+
+  });
+
+});
+</script>
 </div>
+
+
+<!--
+
+  var htmls=['<table  class="ui selectable celled table">']; 
+  htmls.push('<tr>')
+  for(var k in jsonb[0]) htmls.push('<td class="negative">'+k+'</td>');
+  htmls.push('</tr>');
+  for(var i=0,L=jsonb.length;i<L;i++){
+    htmls.push('<tr>');
+    for(var k in jsonb[i]) htmls.push('<td>'+jsonb[i][k]-jsona[i][k]+'</td>'); 
+    htmls.push('</tr>');
+  }
+  htmls.push('</table>');
+  $('#table3').html(htmls.join(''))

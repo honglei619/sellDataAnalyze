@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>设置</title>
-    <link rel="stylesheet" href="semantic.min.css">
-    <script src="echarts.min.js"></script>
-    <script src="jquery.js"></script>
-    <script src="semantic.min.js"></script>
+    <title>图表</title>
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 
@@ -21,12 +22,32 @@
         <i class="yellow bar chart icon"></i> 图表
       </a>
       <a class="item" href="config.html">
-        <i class="yellow configure icon"></i> 设置
+        <i class="yellow setting icon"></i> 设置
       </a>
-      <div class="right item">
-        <div class="ui input"><input type="text" placeholder="Search..."></div>
-      </div>
     </div>
     </div>
-<div id="main" style="height:300px"></div>
 </body>
+<div class="ui segment">
+    <h2 class="ui left floated header">过滤条件</h2>
+<div id="tableFilter" >
+<script>
+
+$.getJSON('config.php',{}, function(json){
+  
+  var htmls=['<table  class="ui selectable celled table">']; 
+  htmls.push('<tr>')
+  for(var k in json[0]) htmls.push('<td class="positive">'+k+'</td>');
+  htmls.push('</tr>');
+  for(var i=0,L=json.length;i<L;i++){
+    htmls.push('<tr>');
+    for(var k in json[i]) htmls.push('<td>'+json[i][k]+'</td>'); 
+    htmls.push('</tr>');
+  }
+  htmls.push('</table>');
+  $('#tableFilter').html(htmls.join(''))
+});
+
+ 
+</script>
+</div>
+</div>
