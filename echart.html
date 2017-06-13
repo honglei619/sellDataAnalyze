@@ -13,10 +13,13 @@
   <div class="ui attached stackable menu">
     <div class="ui container">
       <a class="item" href="index.html">
-        <i class="yellow home icon"></i> 主页
+        <i class="yellow  home icon"></i> 主页
       </a>
       <a class="item" href="table.html">
-        <i class="yellow browser icon"></i> 数据
+        <i class="yellow table icon"></i> 大米数据
+      </a>
+      <a class="item" href="others.html">
+        <i class="yellow browser icon"></i> 其他数据
       </a>
       <a class="item" href="echart.html">
         <i class="yellow bar chart icon"></i> 图表
@@ -37,25 +40,27 @@
   <input type="text" id = "dateTo" class="Wdate" value="2017-5" onfocus="WdatePicker({dateFmt:'yyyy-M',minDate:'2016-1',maxDate:'2017-12'})"/>
 
   <font size = "3">类型</font>
-          <select id ="mi">
+          <select id ="types">
                     <option value = "糯米"  maxlength = "20" size = "10">糯米</option>
                     <option value = "粳米"  maxlength = "20" size = "10">粳米</option>
                     <option value = "籼米"  maxlength = "20" size = "10">籼米</option>
           </select>
+           <!--
     <font size = "3">筛选类型</font>
           <select id ="filter">
-                <!--
+               
                     <option value = "事业部"  maxlength = "20" size = "10">事业部</option>
                     <option value = "品牌"  maxlength = "20" size = "10">品牌</option>
                     <option value = "规格"  maxlength = "20" size = "10">规格</option>
                     <option value = "自产·贸易"  maxlength = "20" size = "10">自产·贸易</option>
                     <option value = "客户类型"  maxlength = "20" size = "10">客户类型</option>
                     <option value = ""  maxlength = "20" size = "10">空</option>
-                  -->
+                 
                     <option value = "客户销量排名"  maxlength = "20" size = "10">客户销量排名</option>
                     <option value = "客户利润排名"  maxlength = "20" size = "10">客户利润排名</option>
 
           </select>
+           -->
       <input type = "submit" value = '生成图表'>
 </div>
 
@@ -66,13 +71,13 @@
             var  myChart = echarts.init(document.getElementById('main'));
 var arr1=[],arr2=[],arr3=[];
 
-$(document).on("change",'select#mi',function(){
+$(document).on("change",'select#types',function(){
               function arrTest(){
                 $.ajax({
                   type:'get',
                   async:false,
                   url:'echart.php',
-                  data:{'mi':$('#mi').val()},
+                  data:{'types':$('#types').val()},
                   dataType:"json",
                   success:function(result){
                     if (result) {
@@ -90,7 +95,7 @@ $(document).on("change",'select#mi',function(){
               arrTest();
               var  option = {
                     title:{
-                        text:'2016年'+$('#mi').val()+'客户销量及吨均售价'
+                        text:'2016年'+$('#types').val()+'月销量及吨均售价'
                     },
                     tooltip: {
                         show: true

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>图表</title>
+    <title>设置</title>
     <link rel="stylesheet" href="css/semantic.min.css">
     <script src="js/echarts.min.js"></script>
     <script src="js/jquery.js"></script>
@@ -13,10 +13,13 @@
   <div class="ui attached stackable menu">
     <div class="ui container">
       <a class="item" href="index.html">
-        <i class="yellow home icon"></i> 主页
+        <i class="yellow  home icon"></i> 主页
       </a>
       <a class="item" href="table.html">
-        <i class="yellow browser icon"></i> 数据
+        <i class="yellow table icon"></i> 大米数据
+      </a>
+      <a class="item" href="others.html">
+        <i class="yellow browser icon"></i> 其他数据
       </a>
       <a class="item" href="echart.html">
         <i class="yellow bar chart icon"></i> 图表
@@ -25,14 +28,59 @@
         <i class="yellow setting icon"></i> 设置
       </a>
     </div>
-    </div>
+  </div>
+
 </body>
+
+<div class="ui segment">
+  <h2 class="ui left floated header"></h2>
+  
+<font size = "3">类型</font>
+<select id ="types">
+  <script>
+  $(document).ready(function(){
+  $.getJSON('config.php?action=getItems',{}, function(json){
+   $("#types").html('');
+   $.each(json, function(index, content){
+     $("#types").append('<option value='+content.物料类型+' >'+content.物料类型+'</option>'); });
+  });
+  }); 
+  </script>
+</select>
+          
+</div>
+
+<div class="ui mini form">
+  <div class="two fields">
+    <div class="field">
+      <label>ID</label>
+      <input placeholder="ID" type="text">
+    </div>
+    <div class="field">
+      <label>物料类型</label>
+      <input placeholder="物料类型" type="text">
+    </div>
+        <div class="field">
+      <label>物料名称</label>
+      <input placeholder="物料名称" type="text">
+    </div>
+
+  </div>
+  <div class="ui submit button" id= "add">
+     <i class="green plus icon"></i>添加
+  </div>
+    <div class="ui submit button"id = "remove">
+     <i class="red remove icon"></i>删除
+  </div>
+
+
 <div class="ui segment">
     <h2 class="ui left floated header">过滤条件</h2>
 <div id="tableFilter" >
-<script>
 
-$.getJSON('config.php',{}, function(json){
+<script>
+$(document).on("change",'select#types',function(){
+$.getJSON('config.php?action=getData',{'types':$('#types').val()}, function(json){
   
   var htmls=['<table  class="ui selectable celled table">']; 
   htmls.push('<tr>')
@@ -46,8 +94,6 @@ $.getJSON('config.php',{}, function(json){
   htmls.push('</table>');
   $('#tableFilter').html(htmls.join(''))
 });
-
- 
+}); 
 </script>
-</div>
 </div>

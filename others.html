@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>数据</title>
+    <title>其他</title>
     <link rel="stylesheet" href="css/semantic.min.css">
     <script src="js/echarts.min.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/semantic.min.js"></script>
     <script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </head>
-<body>
 
+<body>
   <div class="ui attached stackable menu">
     <div class="ui container">
       <a class="item" href="index.html">
@@ -30,7 +30,8 @@
     </div>
   </div>
 
-<div class="ui segment">
+
+  <div class="ui segment">
   <h2 class="ui left floated header"></h2>
   
   <font size = "3">报表开始时间段</font>
@@ -41,24 +42,32 @@
 
   <font size = "3">类型</font>
           <select id ="types">
-                    <option value = "糯米"  maxlength = "20" size = "10">糯米</option>
-                    <option value = "粳米"  maxlength = "20" size = "10">粳米</option>
-                    <option value = "籼米"  maxlength = "20" size = "10">籼米</option>
+                    <option value = "散油"  maxlength = "20" size = "10">散油</option>
+                    <option value = "粕"  maxlength = "20" size = "10">粕</option>
+                    <option value = "小包装油"  maxlength = "20" size = "10">小包装油</option>
+                    <option value = "中包装油"  maxlength = "20" size = "10">中包装油</option>
+
           </select>
     <font size = "3">筛选类型</font>
           <select id ="filter">
-
+            <!--
                     <option value = "事业部"  maxlength = "20" size = "10">事业部</option>
-                    <option value = "品牌"  maxlength = "20" size = "10">品牌</option>
+                    
                     <option value = "规格"  maxlength = "20" size = "10">规格</option>
                     <option value = "自产·贸易"  maxlength = "20" size = "10">自产·贸易</option>
                     <option value = "客户类型"  maxlength = "20" size = "10">客户类型</option>
+            -->
+                    <option value = "品牌"  maxlength = "20" size = "10">品牌</option>
                     <option value = "客户销量排名"  maxlength = "20" size = "10">客户销量排名</option>
                     <option value = "客户利润排名"  maxlength = "20" size = "10">客户利润排名</option>
-                    <option value = ""  maxlength = "20" size = "10">空</option>
           </select>
       <input id = "button" type = "submit" value = '生成报表' >
 </div>
+
+
+
+
+
 
 <!--
   当月报表
@@ -70,7 +79,7 @@
 <script>
 
 $("#button").click(function(){
-$.getJSON('getdata.php',{
+$.getJSON('others.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4),
   'monthFrom':$('#dateFrom').val().substr(5,2),
   'yearTo':$('#dateTo').val().substr(0,4),
@@ -106,7 +115,7 @@ $.getJSON('getdata.php',{
 <script>
 
 $("#button").click(function(){
-$.getJSON('getdata.php',{
+$.getJSON('others.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4),
   'monthFrom':$('#dateFrom').val().substr(5,2)-1,
   'yearTo':$('#dateTo').val().substr(0,4),
@@ -140,14 +149,14 @@ $.getJSON('getdata.php',{
 
 <script>
 $("#button").click(function(){
-$.getJSON('getdata.php',{
+$.getJSON('others.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4),
   'monthFrom':$('#dateFrom').val().substr(5,2),
   'yearTo':$('#dateTo').val().substr(0,4),
   'monthTo':$('#dateTo').val().substr(5,2),
   'types':$('#types').val(),
   'filter':$('#filter').val()}, function(jsona){
-    $.getJSON('getdata.php',{
+    $.getJSON('others.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4),
   'monthFrom':$('#dateFrom').val().substr(5,2)-1,
   'yearTo':$('#dateTo').val().substr(0,4),
@@ -162,7 +171,7 @@ $.getJSON('getdata.php',{
       htmls.push('<tr>');
 
           for(var k in jsonb[i]) 
-           if(k=='品牌'||k=='事业部'||k=='规格'||k=='客户类型'){
+           if(k=='品牌'||k=='物料名称'||k=='规格'||k=='客户类型'){
               htmls.push('<td>'+jsonb[i][k]+'</td>');
 
            } else if((jsonb[i][k]-jsona[i][k])/jsona[i][k]<-0.05||(jsonb[i][k]-jsona[i][k])/jsona[i][k]>0.05){
@@ -199,7 +208,7 @@ $.getJSON('getdata.php',{
 <script>
 
 $("#button").click(function(){
-$.getJSON('getdata.php',{
+$.getJSON('others.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4),
   'monthFrom':1,
   'yearTo':$('#dateTo').val().substr(0,4),
@@ -232,14 +241,14 @@ $.getJSON('getdata.php',{
 
 <script>
 $("#button").click(function(){
-$.getJSON('getdata.php',{
+$.getJSON('others.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4),
   'monthFrom':$('#dateFrom').val().substr(5,2),
   'yearTo':$('#dateTo').val().substr(0,4),
   'monthTo':$('#dateTo').val().substr(5,2),
   'types':$('#types').val(),
   'filter':$('#filter').val()}, function(jsona){
-    $.getJSON('getdata.php',{
+    $.getJSON('others.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4)-1,
   'monthFrom':$('#dateFrom').val().substr(5,2),
   'yearTo':$('#dateTo').val().substr(0,4)-1,
@@ -254,7 +263,7 @@ $.getJSON('getdata.php',{
       htmls.push('<tr>');
 
           for(var k in jsonb[i]) 
-           if(k=='品牌'||k=='事业部'||k=='规格'||k=='客户类型'){
+           if(k=='品牌'||k=='物料名称'||k=='规格'||k=='客户类型'){
               htmls.push('<td>'+jsonb[i][k]+'</td>');
 
            } else if((jsonb[i][k]-jsona[i][k])/jsona[i][k]<-0.05||(jsonb[i][k]-jsona[i][k])/jsona[i][k]>0.05){
@@ -280,3 +289,7 @@ $.getJSON('getdata.php',{
 </script>
 </div>
 </div>
+
+
+
+</body>
