@@ -54,15 +54,15 @@
   <div class="two fields">
     <div class="field">
       <label>ID</label>
-      <input placeholder="ID" type="text">
+      <input placeholder="ID" type="text" id = "input_id">
     </div>
     <div class="field">
       <label>物料类型</label>
-      <input placeholder="物料类型" type="text">
+      <input placeholder="物料类型" type="text" id="input_types">
     </div>
         <div class="field">
       <label>物料名称</label>
-      <input placeholder="物料名称" type="text">
+      <input placeholder="物料名称" type="text" id = "input_items">
     </div>
 
   </div>
@@ -97,3 +97,26 @@ $.getJSON('config.php?action=getData',{'types':$('#types').val()}, function(json
 }); 
 </script>
 </div>
+<script>
+
+$("#add").click(function(){
+    $.getJSON('config.php?action=addData',{'input_types':$('#input_types').val(),'input_items':$('#input_items').val()}, function(){
+      
+  });
+    alert('添加成功');
+
+});
+
+$("#remove").click(function(){
+
+      $.getJSON('config.php?action=removeData',{'input_id':$('#input_id').val()}, function(){
+      
+  });
+    alert('删除成功');
+    
+});
+
+
+</script>
+
+
