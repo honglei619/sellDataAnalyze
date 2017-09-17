@@ -21,6 +21,9 @@
       <a class="item" href="others.html">
         <i class="yellow browser icon"></i> 其他数据
       </a>
+      <a class="item" href="bankroll.html">
+        <i class="yellow money icon"></i> 资金数据
+      </a>
       <a class="item" href="echart.html">
         <i class="yellow bar chart icon"></i> 图表
       </a>
@@ -188,24 +191,24 @@ $.getJSON('getdata.php',{
 </div>
 </div>
 
-
-
 <!--
-  年度累计
+  当月报表
 -->
 <div class="ui segment">
-    <h2 class="ui left floated header">年度累计</h2>
-<div id = "tableYears">
+    <h2 class="ui left floated header">当月报表</h2>
+<div id="tableCurrent2" >
+
 <script>
 
 $("#button").click(function(){
 $.getJSON('getdata.php',{
   'yearFrom':$('#dateFrom').val().substr(0,4),
-  'monthFrom':1,
+  'monthFrom':$('#dateFrom').val().substr(5,2),
   'yearTo':$('#dateTo').val().substr(0,4),
-  'monthTo':12,
+  'monthTo':$('#dateTo').val().substr(5,2),
   'types':$('#types').val(),
   'filter':$('#filter').val()}, function(json){
+  
   var htmls=['<table  class="ui selectable celled table">']; 
   htmls.push('<tr>')
   for(var k in json[0]) htmls.push('<td class="positive">'+k+'</td>');
@@ -216,10 +219,51 @@ $.getJSON('getdata.php',{
     htmls.push('</tr>');
   }
   htmls.push('</table>');
-  $('#tableYears').html(htmls.join(''))});});
+  $('#tableCurrent2').html(htmls.join(''))});
+
+});
+ 
 </script>
 </div>
 </div>
+
+
+<!--
+ 去年同期报表
+-->
+<div class="ui segment">
+    <h2 class="ui left floated header">去年同期报表</h2>
+<div id="tableCurrentLastYear" >
+
+<script>
+
+$("#button").click(function(){
+$.getJSON('getdata.php',{
+  'yearFrom':$('#dateFrom').val().substr(0,4)-1,
+  'monthFrom':$('#dateFrom').val().substr(5,2),
+  'yearTo':$('#dateTo').val().substr(0,4)-1,
+  'monthTo':$('#dateTo').val().substr(5,2),
+  'types':$('#types').val(),
+  'filter':$('#filter').val()}, function(json){
+  
+  var htmls=['<table  class="ui selectable celled table">']; 
+  htmls.push('<tr>')
+  for(var k in json[0]) htmls.push('<td class="positive">'+k+'</td>');
+  htmls.push('</tr>');
+  for(var i=0,L=json.length;i<L;i++){
+    htmls.push('<tr>');
+    for(var k in json[i]) htmls.push('<td>'+json[i][k]+'</td>'); 
+    htmls.push('</tr>');
+  }
+  htmls.push('</table>');
+  $('#tableCurrentLastYear').html(htmls.join(''))});
+
+});
+ 
+</script>
+</div>
+</div>
+
 
 
 
@@ -277,6 +321,38 @@ $.getJSON('getdata.php',{
 
 });
 });
+</script>
+</div>
+</div>
+
+
+<!--
+  年度累计
+-->
+<div class="ui segment">
+    <h2 class="ui left floated header">年度累计</h2>
+<div id = "tableYears">
+<script>
+
+$("#button").click(function(){
+$.getJSON('getdata.php',{
+  'yearFrom':$('#dateFrom').val().substr(0,4),
+  'monthFrom':1,
+  'yearTo':$('#dateTo').val().substr(0,4),
+  'monthTo':12,
+  'types':$('#types').val(),
+  'filter':$('#filter').val()}, function(json){
+  var htmls=['<table  class="ui selectable celled table">']; 
+  htmls.push('<tr>')
+  for(var k in json[0]) htmls.push('<td class="positive">'+k+'</td>');
+  htmls.push('</tr>');
+  for(var i=0,L=json.length;i<L;i++){
+    htmls.push('<tr>');
+    for(var k in json[i]) htmls.push('<td>'+json[i][k]+'</td>'); 
+    htmls.push('</tr>');
+  }
+  htmls.push('</table>');
+  $('#tableYears').html(htmls.join(''))});});
 </script>
 </div>
 </div>

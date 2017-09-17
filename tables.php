@@ -96,7 +96,7 @@ if ($type =="大米") {
     }
 elseif($filter == "客户利润排名"){
 
-    $sql= "SELECT `客户`, ROUND(sum(`销售数量(MT)`),2) as '销量(吨)',ROUND(sum(`销售收入`)/10000,2) as '销售收入(万元)',ROUND(avg(`销售收入`)/avg(`销售数量(MT)`),2) as '吨均售价(元/吨)',ROUND(sum(`销售成本`)/10000,2) as '销售成本(万元)',ROUND(avg(`销售成本`)/avg(`销售数量(MT)`),2) as '吨均成本(元/吨)',ROUND(sum(`销售运费`)/10000,2) as '销售运费(万元)' ,ROUND(avg(`销售运费`)/avg(`销售数量(MT)`),2) as '吨均运费(元/吨)',ROUND(sum(`销售毛利`)/10000 ,2)as '销售毛利(万元)',ROUND(avg(`销售毛利`)/avg(`销售数量(MT)`),2) as '吨均毛利(元/吨)' from `maindata` where `物料描述` IN (select `物料` from `filter` where `物料类型`='$type') and `会计年度` between $yearFrom and $yearTo and `期间` between $monthFrom and $monthTo group by `客户` order by sum(`销售毛利`) DESC";
+    $sql= "SELECT `客户`, ROUND(sum(`销售数量(MT)`),2) as '销量(吨)',ROUND(sum(`销售收入`)/10000,2) as '销售收入(万元)',ROUND(avg(`销售收入`)/avg(`销售数量(MT)`),2) as '吨均售价(元/吨)',ROUND(sum(`销售成本`)/10000,2) as '销售成本(万元)',ROUND(avg(`销售成本`)/avg(`销售数量(MT)`),2) as '吨均成本(元/吨)',ROUND(sum(`销售运费`)/10000,2) as '销售运费(万元)' ,ROUND(avg(`销售运费`)/avg(`销售数量(MT)`),2) as '吨均运费(元/吨)',ROUND(sum(`销售毛利`)/10000 ,2)as '销售毛利(万元)',ROUND(avg(`销售毛利`)/avg(`销售数量(MT)`),2) as '吨均毛利(元/吨)' from `maindata` where `物料描述` IN (select `物料` from `filter` where `物料类型`='$type') and `会计年度` between $yearFrom and $yearTo and `期间` between $monthFrom and $monthTo group by `客户` order by sum(`销售毛利(扣除运费)`) DESC";
 }
 elseif($filter != "客户销量排名"||$filter != "客户利润排名"){
 
